@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SunshineOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sun: #FFB800;
+    --glow: #FF7A00;
+    --deep: #0A0A14;
+    --mid: #11111F;
+    --card: #16162A;
+    --text: #F5ECD7;
+    --muted: #8A7F6E;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(10,10,20,0.7);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,184,0,0.08);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--sun);
+    letter-spacing: 0.04em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); font-size: 0.85rem; text-decoration: none;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--sun); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sun-wrap {
+    position: relative;
+    width: 180px; height: 180px;
+    margin-bottom: 2.5rem;
+  }
+  .sun-core {
+    position: absolute; inset: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFE066, #FFB800, #FF7A00);
+    box-shadow: 0 0 60px 20px rgba(255,184,0,0.45), 0 0 120px 40px rgba(255,122,0,0.2);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  .rays {
+    position: absolute; inset: 0;
+    animation: spin 18s linear infinite;
+  }
+  .ray {
+    position: absolute;
+    width: 6px; height: 38px;
+    background: linear-gradient(to bottom, rgba(255,184,0,0.9), transparent);
+    border-radius: 3px;
+    left: 50%; transform-origin: bottom center;
+  }
+  .ray:nth-child(1)  { transform: translateX(-50%) rotate(0deg)   translateY(-90px); }
+  .ray:nth-child(2)  { transform: translateX(-50%) rotate(45deg)  translateY(-90px); }
+  .ray:nth-child(3)  { transform: translateX(-50%) rotate(90deg)  translateY(-90px); }
+  .ray:nth-child(4)  { transform: translateX(-50%) rotate(135deg) translateY(-90px); }
+  .ray:nth-child(5)  { transform: translateX(-50%) rotate(180deg) translateY(-90px); }
+  .ray:nth-child(6)  { transform: translateX(-50%) rotate(225deg) translateY(-90px); }
+  .ray:nth-child(7)  { transform: translateX(-50%) rotate(270deg) translateY(-90px); }
+  .ray:nth-child(8)  { transform: translateX(-50%) rotate(315deg) translateY(-90px); }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 60px 20px rgba(255,184,0,0.45), 0 0 120px 40px rgba(255,122,0,0.2); }
+    50%      { box-shadow: 0 0 80px 30px rgba(255,184,0,0.65), 0 0 160px 60px rgba(255,122,0,0.3); }
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 10%; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,184,0,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 9vw, 7rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #FFE066 0%, #FFB800 40%, #FF7A00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.6rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-sub {
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    color: var(--muted);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1.8rem;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+  .hero-desc {
+    max-width: 520px;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(245,236,215,0.7);
+    margin-bottom: 2.8rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.8s 0.45s ease both;
+  }
+  .btn-primary {
+    padding: 0.85rem 2.2rem;
+    background: linear-gradient(135deg, #FFB800, #FF7A00);
+    color: #0A0A14;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    border: none; border-radius: 50px;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 0 30px rgba(255,184,0,0.3);
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(255,184,0,0.5); }
+  .btn-ghost {
+    padding: 0.85rem 2.2rem;
+    background: transparent;
+    color: var(--sun);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(255,184,0,0.35);
+    border-radius: 50px;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--sun); background: rgba(255,184,0,0.06); transform: translateY(-2px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.35rem 1rem;
+    border: 1px solid rgba(255,184,0,0.25);
+    border-radius: 50px;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    color: var(--sun);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sun); animation: pulse 2s infinite; }
+
+  .features {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    text-align: center;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sun);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 3.5rem;
+    color: var(--text);
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(255,184,0,0.08);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--sun), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .card:hover { border-color: rgba(255,184,0,0.25); transform: translateY(-4px); }
+  .card:hover::before { opacity: 1; }
+  .card-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .card-title { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.6rem; color: var(--text); }
+  .card-desc { font-size: 0.9rem; line-height: 1.7; color: var(--muted); }
+
+  .specs {
+    padding: 5rem 2rem;
+    background: var(--mid);
+    border-top: 1px solid rgba(255,184,0,0.06);
+    border-bottom: 1px solid rgba(255,184,0,0.06);
+  }
+  .specs-inner { max-width: 900px; margin: 0 auto; }
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .spec-item { text-align: center; }
+  .spec-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--sun);
+  }
+  .spec-key { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; letter-spacing: 0.05em; }
+
+  footer {
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  footer span { color: var(--sun); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">☀ SunshineOS</div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#specs">Specs</a></li>
+    <li><a href="https://github.com/tuonome/sunshineos">GitHub</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="badge"><span class="badge-dot"></span> Version 1.0 · Leonardus</div>
+
+  <div class="sun-wrap">
+    <div class="rays">
+      <div class="ray"></div><div class="ray"></div><div class="ray"></div><div class="ray"></div>
+      <div class="ray"></div><div class="ray"></div><div class="ray"></div><div class="ray"></div>
+    </div>
+    <div class="sun-core"></div>
+  </div>
+
+  <h1 class="hero-title">SunshineOS</h1>
+  <p class="hero-sub">Based on Ubuntu 25.10 · Leonardus</p>
+  <p class="hero-desc">
+    A warm, fast, and radiant Linux experience. Built for people who want a system that just works — and looks beautiful doing it.
+  </p>
+  <div class="hero-btns">
+    <a href="#" class="btn-primary">⬇ Download ISO</a>
+    <a href="https://github.com/tuonome/sunshineos" class="btn-ghost">View on GitHub</a>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <p class="section-label">Why SunshineOS</p>
+  <h2 class="section-title">Everything you need, nothing you don't.</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">Fast & Lightweight</div>
+      <div class="card-desc">Trimmed down from Ubuntu, optimized for speed. Boots in seconds, stays snappy all day.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">☀️</div>
+      <div class="card-title">Beautiful by Default</div>
+      <div class="card-desc">A warm, sun-inspired visual identity out of the box. No extra configuration needed.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <div class="card-title">Secure & Private</div>
+      <div class="card-desc">Built on Ubuntu's rock-solid security foundation, with less bloat and fewer attack surfaces.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎮</div>
+      <div class="card-title">Gaming Ready</div>
+      <div class="card-desc">Ships with the tools you need for gaming on Linux — no extra setup headaches.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">Developer Friendly</div>
+      <div class="card-desc">Terminal-first philosophy. Everything a developer needs is one apt install away.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <div class="card-title">Community Driven</div>
+      <div class="card-desc">Open source and built with passion. Contributions are always welcome on GitHub.</div>
+    </div>
+  </div>
+</section>
+
+<section class="specs" id="specs">
+  <div class="specs-inner">
+    <p class="section-label">Under the Hood</p>
+    <h2 class="section-title">Built on solid foundations.</h2>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-val">25.10</div>
+        <div class="spec-key">Ubuntu Base</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val">1.0</div>
+        <div class="spec-key">Current Version</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val">x86_64</div>
+        <div class="spec-key">Architecture</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val">Leonardus</div>
+        <div class="spec-key">Codename</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Made with ☀️ by <span>Gio</span> · SunshineOS is free and open source</p>
+  <p style="margin-top:0.5rem">Based on Ubuntu 25.10 · <a href="https://github.com/tuonome/sunshineos" style="color:var(--sun);text-decoration:none;">GitHub</a></p>
+</footer>
+
+</body>
+</html>
