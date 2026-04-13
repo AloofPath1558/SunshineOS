@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SunshineOS Wallpaper</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0418; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: system-ui, sans-serif; gap: 16px; }
+  canvas { display: block; max-width: 95vw; max-height: 80vh; border-radius: 10px; box-shadow: 0 0 60px rgba(245,180,20,0.18); }
+  button {
+    padding: 10px 28px;
+    background: #F5B820;
+    color: #1A0800;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+  button:hover { background: #E8A010; }
+  p { color: rgba(255,220,100,0.45); font-size: 13px; }
+</style>
+</head>
+<body>
+<canvas id="wc"></canvas>
+<button onclick="dl()">↓ Download 1920×1080 PNG</button>
+<p>SunshineOS 1.0 "Leonardus" · aloofpath1558.github.io/SunshineOS</p>
+<script>
+const c = document.getElementById('wc');
+const g = c.getContext('2d');
+const W = 1920, H = 1080;
+c.width = W; c.height = H;
+
+// Sky bands — dark indigo at top to warm gold at horizon
+[
+  ['#06021A', 0,   155],
+  ['#0E0532', 155, 105],
+  ['#1C0840', 260, 90],
+  ['#380D50', 350, 80],
+  ['#5C1240', 430, 90],
+  ['#8A2022', 520, 85],
+  ['#B83C10', 605, 80],
+  ['#D86A08', 685, 80],
+  ['#EE9808', 765, 315],
+].forEach(([col, y, h]) => {
+  g.fillStyle = col;
+  g.fillRect(0, y, W, h);
+});
+
+// Sun position
+const sx = W / 2, sy = H * 0.755, sr = 245;
+
+// Rays
+const N = 22;
+for (let i = 0; i < N; i++) {
+  const a = (i / N) * Math.PI * 2;
+  const half = (Math.PI / N) * 0.42;
+  g.beginPath();
+  g.moveTo(sx + Math.cos(a - half) * sr, sy + Math.sin(a - half) * sr);
+  g.lineTo(sx + Math.cos(a) * 1350,      sy + Math.sin(a) * 1350);
+  g.lineTo(sx + Math.cos(a + half) * sr, sy + Math.sin(a + half) * sr);
+  g.closePath();
+  g.fillStyle = i % 2 === 0
+    ? 'rgba(242,162,14,0.52)'
+    : 'rgba(198,88,10,0.31)';
+  g.fill();
+}
+
+// Sun glow rings
+[
+  [sr * 2.6,  'rgba(238,168,18,0.06)'],
+  [sr * 1.85, 'rgba(238,168,18,0.09)'],
+  [sr * 1.38, 'rgba(250,195,50,0.13)'],
+].forEach(([r, col]) => {
+  g.beginPath();
+  g.arc(sx, sy, r, 0, Math.PI * 2);
+  g.fillStyle = col;
+  g.fill();
+});
+
+// Sun disc
+g.beginPath();
+g.arc(sx, sy, sr, 0, Math.PI * 2);
+g.fillStyle = '#FFEDA0';
+g.fill();
+
+// Sun bright center
+g.beginPath();
+g.arc(sx, sy, sr * 0.63, 0, Math.PI * 2);
+g.fillStyle = '#FFF8D8';
+g.fill();
+
+// Hills — back layer
+g.beginPath();
+g.moveTo(0, H);
+g.bezierCurveTo(220, 800, 520, 755, 730, 818);
+g.bezierCurveTo(930, 878, 1040, 778, 1240, 800);
+g.bezierCurveTo(1445, 820, 1695, 790, W, 835);
+g.lineTo(W, H);
+g.closePath();
+g.fillStyle = '#0A041C';
+g.fill();
+
+// Hills — front layer
+g.beginPath();
+g.moveTo(0, H);
+g.bezierCurveTo(175, 918, 375, 896, 570, 938);
+g.bezierCurveTo(720, 968, 912, 908, 1095, 940);
+g.bezierCurveTo(1295, 972, 1498, 928, 1695, 962);
+g.bezierCurveTo(1818, 988, 1898, 1003, W, 998);
+g.lineTo(W, H);
+g.closePath();
+g.fillStyle = '#060210';
+g.fill();
+
+// Stars
+[
+  [102,53],[258,36],[378,93],[502,26],[612,72],
+  [718,40],[808,108],[928,20],[1038,63],[1158,43],
+  [1238,88],[1368,58],[1458,26],[1568,93],[1658,48],
+  [1776,33],[1878,103],[192,138],[418,123],[775,146],
+  [1176,116],[1676,130],[1938,73],[52,98],[1008,138],
+  [1480,155],[305,165],[900,160],[1320,152],[1550,40],
+  [450,60],[1090,105],[650,28],[1750,80],[85,170],
+].forEach(([px, py]) => {
+  const r = py < 80 ? 1.5 : 1.1;
+  const a = py < 80 ? 0.92 : 0.6;
+  g.beginPath();
+  g.arc(px, py, r, 0, Math.PI * 2);
+  g.fillStyle = `rgba(255,252,220,${a})`;
+  g.fill();
+});
+
+// Text — SunshineOS
+g.textAlign = 'center';
+g.font = 'bold 92px system-ui, ui-sans-serif, sans-serif';
+g.fillStyle = 'rgba(255,238,138,0.95)';
+g.fillText('SunshineOS', W / 2, 328);
+
+// Subtitle
+g.font = '300 41px system-ui, ui-sans-serif, sans-serif';
+g.fillStyle = 'rgba(255,212,95,0.52)';
+g.fillText('1.0  ·  Leonardus', W / 2, 388);
+
+function dl() {
+  const a = document.createElement('a');
+  a.download = 'SunshineOS-1.0-Leonardus.png';
+  a.href = c.toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>
