@@ -20,18 +20,6 @@ This project is still under active development and is intended for educational a
 
 ---
 
-## 🧩 Project Structure
-
-
-SunshineOS/
-├── cubic.conf # Main configuration file
-├── custom-disk/ # Disk layout / build data
-├── custom-root/ # Root filesystem (excluded from GitHub if large/system files)
-└── *.img / *.iso # Generated system images (not tracked in git)
-
-
----
-
 ## ⚙️ Build / Usage
 
 Depending on your environment, SunshineOS may be built using tools like:
