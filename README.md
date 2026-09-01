@@ -29,32 +29,35 @@ Depending on your environment, SunshineOS may be built using tools like:
 - Linux shell tools for system customization
 
 ### Example workflow:
-```bash
-# Build system image
-# (example steps depending on your setup)
+## Build system trough Cubic
 
-cubic build
-🌐 GitHub Pages Deployment
+**🌐 GitHub Pages Deployment**
 
 This project includes a static website hosted via GitHub Pages:
 
-👉 https://aloofpath1558.github.io/SunshineOS/
+👉 *https://aloofpath1558.github.io/SunshineOS/*
 
-The site is automatically updated from the main branch.
+The site is automatically updated from the **SunshineOS-Site** branch.
 
-📦 Notes
-Large files like .iso and .img are not included in the repository.
-System folders such as custom-root/ are excluded via .gitignore.
-This repository is intended for configuration and build logic, not full OS binaries.
-🧠 Goals
+**📦 Notes**
+
+Large files like the .iso is not included in the repository.
+The .iso is downloadable trough the instructions on the releases
+
+**🧠 Goals**
+
 Build a lightweight experimental OS pipeline
+
 Learn system internals and boot processes
+
 Automate ISO generation workflows
+
 Improve Linux system engineering skills
-📜 License
+
+**📜 License**
 
 This project is currently for personal/educational use. A license may be added in the future.
 
-👤 Author
+**👤 Author**
 
 Created by AloofPath1558
