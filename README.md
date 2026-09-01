@@ -65,6 +65,8 @@ Start from the **SunshineOS base ISO** and customize it to your own needs.
 9. Test it using **QEMU** or **VirtualBox**
 10. Share your fork with the community!
 
+> 💡 For more information, see the [**BUILD.md**](Docs/BUILD.md).
+---
 > 💡 **Tip:** SunshineOS is designed to be customizable. Feel free to experiment, modify components, change the desktop, and build your own vision of the system.
 
 ---
