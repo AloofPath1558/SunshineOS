@@ -1,4 +1,4 @@
-# ☀️ SunshineOS
+#![Logo](https://raw.githubusercontent.com/AloofPath1558/SunshineOS/refs/heads/main/Assets/Logo.png)
 
 Welcome to **SunshineOS**, a custom operating system project focused on experimentation, system building, and Linux-based image generation.
 
