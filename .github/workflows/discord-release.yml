@@ -1,0 +1,86 @@
+```yaml
+name: Discord Release Notification
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test Discord webhook
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -f -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"content":"☀️ **SunshineOS — Discord webhook test OK!**"}' \
+            "$DISCORD_WEBHOOK"
+
+      - name: Send release to Discord
+        if: github.event_name == 'release'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          RELEASE_NAME: ${{ github.event.release.name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          webhook = os.environ["DISCORD_WEBHOOK"]
+          name = os.environ.get("RELEASE_NAME") or os.environ["RELEASE_TAG"]
+          tag = os.environ["RELEASE_TAG"]
+          url = os.environ["RELEASE_URL"]
+          body = os.environ.get("RELEASE_BODY") or "Nessuna descrizione disponibile."
+
+          body = body[:4000]
+
+          payload = {
+              "username": "SunshineOS",
+              "embeds": [{
+                  "title": f"☀️ SunshineOS {name}",
+                  "url": url,
+                  "description": body,
+                  "color": 16763955,
+                  "fields": [
+                      {
+                          "name": "📦 Versione",
+                          "value": f"`{tag}`",
+                          "inline": True
+                      },
+                      {
+                          "name": "🚀 Release",
+                          "value": f"[Apri su GitHub]({url})",
+                          "inline": True
+                      }
+                  ],
+                  "footer": {
+                      "text": "SunshineOS • GitHub Releases"
+                  }
+              }]
+          }
+
+          data = json.dumps(payload).encode("utf-8")
+
+          request = urllib.request.Request(
+              webhook,
+              data=data,
+              headers={"Content-Type": "application/json"},
+              method="POST"
+          )
+
+          with urllib.request.urlopen(request) as response:
+              response.read()
+
+          print(f"✅ Release {tag} inviato su Discord!")
+          PY
+```
