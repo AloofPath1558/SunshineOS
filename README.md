@@ -106,7 +106,7 @@ The main goals of SunshineOS are:
 
 This project is currently intended for **personal and educational use**.
 
-A formal open-source license may be added in the future.
+A formal open-source [**license**](LICENSE)
 
 ---
 
